@@ -1,0 +1,81 @@
+{
+  "breast_diagnosis": {
+    "keywords": ["diagnosis", "type", "carcinoma", "histologic", "histological", "histopathological"],
+    "rules": [
+      "Invasive Ductal Carcinoma (IDC): Most common (70-80%). Features: tubular/glandular formation, solid growth pattern, nuclear pleomorphism, stromal desmoplasia, irregular borders.",
+      "Invasive Lobular Carcinoma (ILC): Single-file infiltration pattern, discohesive cells, targetoid pattern around ducts, loss of E-cadherin expression, Indian-file arrangement.",
+      "Ductal Carcinoma In Situ (DCIS): Confined within ductal system, intact basement membrane, comedo/cribriform/papillary/solid subtypes, may have central necrosis.",
+      "Mucinous (Colloid) Carcinoma: Extracellular mucin pools with floating tumor cell clusters, well-circumscribed, favorable prognosis.",
+      "Medullary Carcinoma: Syncytial growth pattern, high-grade nuclei, prominent lymphocytic infiltrate, circumscribed pushing borders.",
+      "Tubular Carcinoma: Well-formed angulated tubules with open lumens, single cell layer, low-grade nuclei, excellent prognosis.",
+      "Metaplastic Carcinoma: Mixed epithelial and mesenchymal elements, squamous or spindle cell differentiation.",
+      "IDC vs ILC differential: Gland/tubule formation → IDC; Single-file/discohesive cells → ILC; E-cadherin positive → IDC, negative → ILC."
+    ]
+  },
+  "breast_grade": {
+    "keywords": ["grade", "nottingham", "differentiation", "score", "nuclear"],
+    "rules": [
+      "Nottingham Grading System: Total score = tubule formation + nuclear pleomorphism + mitotic count (each 1-3 points, total 3-9).",
+      "Grade 1 (well-differentiated): Score 3-5. >75% tubule formation, mild nuclear size variation, low mitotic count.",
+      "Grade 2 (moderately differentiated): Score 6-7. 10-75% tubule formation, moderate nuclear variation, intermediate mitotic count.",
+      "Grade 3 (poorly differentiated): Score 8-9. <10% tubule formation, marked nuclear pleomorphism, high mitotic count.",
+      "Nuclear Grade: Grade 1 (small uniform nuclei), Grade 2 (moderate variation 1.5-2x), Grade 3 (marked variation >2.5x, prominent nucleoli).",
+      "Modified Black's Nuclear Grade: Based on nuclear size, chromatin pattern, nucleoli prominence, and mitotic activity."
+    ]
+  },
+  "breast_staging": {
+    "keywords": ["stage", "staging", "pathological", "tnm", "size"],
+    "rules": [
+      "T staging: T1 (<2cm), T2 (2-5cm), T3 (>5cm), T4 (chest wall/skin involvement).",
+      "T1 substages: T1mi (≤1mm), T1a (>1mm-5mm), T1b (>5mm-10mm), T1c (>10mm-20mm).",
+      "N staging: N0 (no nodal metastasis), N1 (1-3 axillary nodes), N2 (4-9 nodes or internal mammary), N3 (≥10 nodes).",
+      "M staging: M0 (no distant metastasis), M1 (distant metastasis present).",
+      "Tumor size is measured in greatest dimension of the invasive component only (not in-situ component).",
+      "Pathological stage combines T, N, and M status: e.g., T2N1M0 = Stage IIB."
+    ]
+  },
+  "breast_receptor": {
+    "keywords": ["receptor", "estrogen", "progesterone", "her2", "hormone", "er", "pr", "immunohistochemistry"],
+    "rules": [
+      "Estrogen Receptor (ER): Positive if ≥1% of tumor nuclei stain. Associated with luminal subtypes, better prognosis, endocrine therapy responsive.",
+      "Progesterone Receptor (PR): Positive if ≥1% of tumor nuclei stain. Often co-expressed with ER.",
+      "HER2 scoring (IHC): 0 (no staining), 1+ (faint incomplete membrane), 2+ (equivocal, needs FISH), 3+ (strong complete membrane staining >10%).",
+      "HER2 positive tumors: more aggressive, respond to trastuzumab (Herceptin) therapy.",
+      "Triple-negative: ER-/PR-/HER2-. Basal-like subtype, aggressive, no targeted therapy.",
+      "From H&E morphology alone: ER/PR status CANNOT be definitively determined (requires IHC). Well-differentiated tumors more likely ER+.",
+      "Ki-67 index: Low (<14%), Intermediate (14-30%), High (>30%). Reflects proliferative activity."
+    ]
+  },
+  "breast_margins": {
+    "keywords": ["margin", "surgical", "resection", "excision"],
+    "rules": [
+      "Negative margin: No tumor cells at inked margin. Generally indicates complete resection.",
+      "Positive margin: Tumor cells at the inked edge. May require re-excision.",
+      "Close margin: Tumor within 1-2mm of margin. Clinical significance debated.",
+      "For DCIS: Negative margin typically requires ≥2mm clearance.",
+      "Margin assessment from H&E: Look for tumor cells at the edge of tissue, presence of cautery artifact, ink on surface."
+    ]
+  },
+  "breast_morphology": {
+    "keywords": ["invasion", "in-situ", "lymphovascular", "necrosis", "pattern", "multifocal"],
+    "rules": [
+      "Lymphovascular invasion (LVI): Tumor cells within lymphatic or blood vessel spaces. Associated with higher risk of metastasis.",
+      "Angiolymphatic invasion: Presence of tumor emboli in endothelial-lined spaces. Must distinguish from retraction artifact.",
+      "Comedo necrosis: Central necrosis within DCIS, associated with high-grade DCIS and higher recurrence risk.",
+      "Multifocal tumor: Multiple distinct tumor foci in the same quadrant. Each focus measured separately.",
+      "Multicentric tumor: Tumor foci in different quadrants of the breast.",
+      "In-situ component: DCIS or LCIS component adjacent to invasive carcinoma. Percentage of in-situ component should be reported.",
+      "Paget disease: Intraepidermal spread of carcinoma cells in the nipple epidermis."
+    ]
+  },
+  "breast_survival": {
+    "keywords": ["survival", "prognosis", "vital", "alive", "dead"],
+    "rules": [
+      "Survival time cannot be determined from H&E histology alone — it depends on treatment, stage, molecular subtype, and patient factors.",
+      "General prognostic indicators from morphology: tumor grade, size, nodal status, LVI, receptor status.",
+      "Favorable morphology: low grade, small size, no LVI, tubular/mucinous subtype.",
+      "Unfavorable morphology: high grade, large size, LVI present, triple-negative phenotype.",
+      "Vital status (alive/dead) cannot be assessed from tissue morphology."
+    ]
+  }
+}

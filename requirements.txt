@@ -1,0 +1,17 @@
+torch
+transformers
+accelerate
+qwen-vl-utils
+vllm
+numpy
+scipy
+pillow
+h5py
+openslide-python
+scikit-learn
+nltk
+matplotlib
+rouge-score
+pycocoevalcap
+pycocotools
+requests

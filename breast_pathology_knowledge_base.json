@@ -1,0 +1,505 @@
+{
+  "metadata": {
+    "title": "Breast Pathology Knowledge Base for RAG",
+    "version": "1.0",
+    "date_created": "2026-04-08",
+    "sources": [
+      "StatPearls - Breast Cancer (NCBI NBK482286)",
+      "Libre Pathology - Breast, IDC, ILC, DCIS, Mucinous, Tubular, Medullary, Grading, Staging, HER2, ER",
+      "WHO Classification of Breast Tumours"
+    ],
+    "purpose": "Structured knowledge base for breast pathology RAG system in WSI VQA"
+  },
+
+  "carcinoma_subtypes": {
+    "invasive_ductal_carcinoma_NST": {
+      "aliases": ["IDC", "Invasive carcinoma of no special type", "NST", "IDC-NOS"],
+      "frequency": "50-75% of all invasive breast cancers",
+      "definition": "The most common form of invasive breast cancer, arising from terminal duct-lobular units. Diagnosed by exclusion of special subtypes. Alternatively termed invasive carcinoma of No Specific/Special Type (NST).",
+      "gross_features": "White, firm stellate lesion with irregular borders. Hard consistency due to desmoplastic stromal reaction.",
+      "histological_features": {
+        "architecture": "Highly variable. Atypical cells forming ducts, sheets, cords, or nests with variable mitotic activity and necrosis. Infiltrative pattern with small glands of variable size within desmoplastic stroma. Glands lined by a single layer of cells (loss of myoepithelial layer).",
+        "cytology": "Atypical cells typically exceed 2x RBC diameter, though may appear bland in well-differentiated variants. Nucleoli commonly present. Variable nuclear pleomorphism.",
+        "key_diagnostic_finding": "Atypical nucleus adjacent to adipocytes (indicating invasion). Absence of myoepithelial cells confirmed by IHC (p63 negative, SMMS negative).",
+        "invasion_pattern": "Infiltrative small glands of variable size within desmoplastic stroma"
+      },
+      "immunohistochemistry": {
+        "E_cadherin": "Strong membranous positivity (distinguishes from ILC); note: up to 3-5% may be negative, especially higher grade tumors",
+        "ER": "About 75% are positive",
+        "PR": "Variable; ER-/PR+ tumors are rare (<1%)",
+        "HER2": "About 15-20% are positive",
+        "Ki67": "Correlates with prognosis, variable",
+        "myoepithelial_markers": "p63 negative, SMMS negative (confirming invasion)"
+      },
+      "molecular_subtypes": {
+        "luminal_A": {"ER": "+", "PR": "+", "HER2": "-", "Ki67": "low", "prognosis": "Best prognosis, less aggressive"},
+        "luminal_B": {"ER": "+", "PR": "+/-", "HER2": "+/-", "Ki67": "high", "prognosis": "Intermediate prognosis"},
+        "HER2_enriched": {"ER": "-", "PR": "-", "HER2": "+", "Ki67": "high", "prognosis": "Aggressive, responds to HER2-targeted therapy"},
+        "basal_like_triple_negative": {"ER": "-", "PR": "-", "HER2": "-", "Ki67": "high", "prognosis": "Worst prognosis, poor survival"}
+      },
+      "differential_diagnosis": [
+        {"entity": "DCIS", "distinguishing_features": "DCIS is confined within basement membrane; IDC shows invasion into stroma. IHC for myoepithelial markers (p63, SMA, calponin) helps distinguish."},
+        {"entity": "ILC", "distinguishing_features": "ILC shows single-file infiltration, E-cadherin negative. IDC forms glands/sheets, E-cadherin positive."},
+        {"entity": "Sclerosing adenosis", "distinguishing_features": "Benign; retains myoepithelial cells on IHC"},
+        {"entity": "Tubular carcinoma", "distinguishing_features": "Special type with >90% well-formed angulated tubules, excellent prognosis"}
+      ],
+      "prognosis": "Variable, dependent on stage, grade, and molecular subtype. Ranges from good (low grade, small, node-negative) to poor (high grade, node-positive, triple-negative)."
+    },
+
+    "invasive_lobular_carcinoma": {
+      "aliases": ["ILC", "Lobular carcinoma"],
+      "frequency": "10-15% of invasive breast cancers (second most common)",
+      "definition": "Second most common form of invasive breast cancer, characterized by discohesive cells infiltrating in single-file patterns with loss of E-cadherin expression.",
+      "gross_features": "Often clinically occult; may not form a discrete mass. Frequently multifocal and bilateral. Diffuse firmness rather than a defined lump.",
+      "histological_features": {
+        "classic_pattern": "Single-file cell arrangement (Indian file pattern). Discohesive cells. No gland formation. Absence of desmoplastic reaction - surrounding stroma appears benign and undisturbed. Low-grade nuclear characteristics typically. Targetoid pattern: tumor cells concentrically arranged around normal ducts.",
+        "cytology": "Small, uniform cells with eccentric nuclei. Signet ring cell morphology may occur. Intracytoplasmic lumina may be present.",
+        "growth_patterns": ["Single-file infiltration", "Targetoid pattern around ducts", "Diffuse sheet-like growth in variants"]
+      },
+      "variants": {
+        "classic": "Low nuclear grade, single-file pattern, small uniform cells without significant nuclear size variation",
+        "pleomorphic": "Significant nuclear atypia, larger cells, higher grade, may show apocrine features. More aggressive behavior.",
+        "solid": "Sheets of discohesive cells without single-file pattern",
+        "alveolar": "Cells arranged in small round clusters of approximately 20 cells",
+        "tubulolobular": "Small tubules admixed with single-file lobular pattern",
+        "histiocytoid": "Cells resemble histiocytes with abundant eosinophilic cytoplasm"
+      },
+      "immunohistochemistry": {
+        "E_cadherin": "NEGATIVE (defining feature, loss due to CDH1 mutation/inactivation)",
+        "beta_catenin": "Variable, approximately 46% completely negative",
+        "ER": "Typically POSITIVE",
+        "PR": "Typically POSITIVE",
+        "HER2": "Typically NEGATIVE",
+        "CK7": "Positive",
+        "CK20": "Negative"
+      },
+      "genetic_associations": "May be associated with CDH1 mutation, linked to hereditary diffuse gastric cancer syndrome.",
+      "differential_diagnosis": [
+        {"entity": "IDC", "distinguishing_features": "IDC forms glands/sheets, E-cadherin positive. ILC shows single-file, E-cadherin negative."},
+        {"entity": "LCIS", "distinguishing_features": "LCIS is non-invasive, confined to lobules. ILC invades stroma."},
+        {"entity": "Poorly differentiated carcinoma", "distinguishing_features": "May mimic ILC; E-cadherin status helps distinguish."},
+        {"entity": "Malignant melanoma", "distinguishing_features": "Melanoma markers (S100, HMB-45, Melan-A) positive; cytokeratins negative."}
+      ],
+      "prognosis": "Generally similar stage-for-stage to IDC but differs in metastatic pattern (more frequent metastasis to peritoneum, GI tract, ovaries, meninges)."
+    },
+
+    "ductal_carcinoma_in_situ": {
+      "aliases": ["DCIS", "Stage 0 breast cancer", "Intraductal carcinoma"],
+      "frequency": "20-25% of all breast cancers detected by screening",
+      "definition": "Non-invasive breast carcinoma confined within the ductal basement membrane. Diagnosed through nuclear abnormalities and/or architectural changes.",
+      "histological_features": {
+        "nuclear_features": "Nuclear enlargement at least 2-3x size of RBC. Nuclear pleomorphism. Mitoses variably present.",
+        "architectural_features": "Equal spacing of cells ('cookie cutter' look). Cells align along lumens forming 'Roman bridges'. Architecture varies by subtype."
+      },
+      "architectural_subtypes": {
+        "comedo": "Central necrosis within ducts filled with high-grade cells. Often associated with calcifications. High-grade nuclei with central luminal necrosis ('comedo' = comedone-like). Most aggressive pattern.",
+        "cribriform": "Honeycomb-like appearance with circular holes, 'cookie cutter' or 'punched-out' appearance. Regular, round secondary lumina within cell masses. Often low to intermediate grade.",
+        "solid": "Sheet of cells fills the duct with no intercellular spaces. May be associated with comedonecrosis.",
+        "micropapillary": "Small papillae WITHOUT fibrovascular cores. Characteristic 'drum stick' shape projecting into lumen. No supporting stromal axis.",
+        "papillary": "Papillae WITH fibrovascular cores LACKING myoepithelial layers, lined by atypical cells. Distinguished from benign papilloma by absence of myoepithelial cells."
+      },
+      "grading_system": {
+        "grade_1_low": {"nuclear_size": "2-3x RBC size", "necrosis": "No necrosis", "architecture": "Often cribriform or micropapillary"},
+        "grade_2_intermediate": {"nuclear_size": "2-3x RBC size", "necrosis": "Variably present", "architecture": "Variable"},
+        "grade_3_high": {"nuclear_size": ">3x size of RBC", "necrosis": "Usually present (comedonecrosis)", "architecture": "Often comedo or solid"}
+      },
+      "distinction_from_ADH": "Atypical Ductal Hyperplasia (ADH) diagnosed if <2 membrane-bound spaces AND <2 mm extent (3 mm for papillary lesions). Both receive excision, but DCIS requires radiation; ADH does not.",
+      "immunohistochemistry": {
+        "myoepithelial_layer": "PRESENT (distinguishes from invasive carcinoma). Confirmed by CK5/6, SMA, p63, calponin.",
+        "ER": "Often positive, especially low-grade DCIS",
+        "HER2": "Often positive in high-grade DCIS"
+      },
+      "key_diagnostic_principle": "Architecture is more important than cytologic features in the diagnosis of malignancy in the breast; low-grade tumors have distorted architecture but normal/near-normal cytology.",
+      "differential_diagnosis": [
+        {"entity": "ADH", "distinguishing_features": "Size <2mm and <2 involved spaces = ADH rather than DCIS"},
+        {"entity": "LCIS", "distinguishing_features": "LCIS shows discohesive cells filling lobules, E-cadherin negative. DCIS fills ducts with cohesive cells, E-cadherin positive."},
+        {"entity": "Invasive carcinoma", "distinguishing_features": "DCIS retains myoepithelial layer; invasive carcinoma does not."},
+        {"entity": "Usual ductal hyperplasia", "distinguishing_features": "UDH shows streaming pattern with slit-like spaces, heterogeneous cell population. DCIS shows monotonous cell population with architectural abnormalities."}
+      ]
+    },
+
+    "mucinous_carcinoma": {
+      "aliases": ["Colloid carcinoma", "Mucinous carcinoma of the breast"],
+      "frequency": "2-5% of invasive breast cancers",
+      "definition": "Invasive breast carcinoma characterized by abundant extracellular mucin production. Mucinous component must comprise >90% of the tumor for pure mucinous diagnosis.",
+      "gross_features": "Pale, glistening, jelly-like appearance. Typically well-circumscribed.",
+      "histological_features": {
+        "architecture": "Malignant mucin-producing glands with small clusters of cells floating in mucin pools. Glands typically display irregular edges. Vessels may be present within mucin pools.",
+        "cytology": "Low to intermediate nuclear grade. Cells appear to float within abundant mucinous material.",
+        "key_criteria": "Mucinous component must be >90% for pure mucinous diagnosis"
+      },
+      "subtypes": {
+        "mucinous_A_paucicellular": "Greater mucin component, fewer tumor cells within mucin lakes",
+        "mucinous_B_hypercellular": "Less mucin, more cellular, with neuroendocrine differentiation and argyrophilia"
+      },
+      "immunohistochemistry": {
+        "ER": "Positive",
+        "PR": "Positive",
+        "HER2": "Negative"
+      },
+      "differential_diagnosis": [
+        {"entity": "DCIS with mucinous component", "distinguishing_features": "Mucin appears homogenous, lacks vascularization, and has regular borders"},
+        {"entity": "IDC with focal mucinous features", "distinguishing_features": "Any NST component >10% = mixed rather than pure mucinous; worse prognosis"},
+        {"entity": "Mucocele-like lesion", "distinguishing_features": "Benign, mucin-filled cysts without malignant epithelium"}
+      ],
+      "prognosis": "Good prognosis (better than IDC-NST). Pure mucinous has better prognosis than mixed. Admixture with NST component worsens prognosis. Typically affects older women.",
+      "clinical_context": "Core biopsy showing any mucinous change warrants excision to exclude mucinous carcinoma."
+    },
+
+    "medullary_carcinoma": {
+      "aliases": ["Medullary carcinoma of the breast", "Carcinoma with medullary features"],
+      "frequency": "Uncommon subtype, <5% of invasive breast cancers. More frequent in BRCA1 mutation carriers.",
+      "definition": "Poorly differentiated but well-circumscribed invasive carcinoma with syncytial growth, prominent lymphoplasmacytic infiltrate, and pushing borders. All five diagnostic criteria must be met.",
+      "diagnostic_criteria_all_required": [
+        "Well-circumscribed border (pushing margins)",
+        "Syncytial growth pattern (clumps of cells with poorly defined cell borders, >75% of tumor)",
+        "Lymphoplasmacytic infiltrate (prominent, within and around tumor)",
+        "High nuclear grade (as per Nottingham grading system)",
+        "No tubule formation"
+      ],
+      "histological_features": {
+        "architecture": "Syncytial sheets of large pleomorphic cells. Well-circumscribed with pushing margins. Dense lymphoplasmacytic infiltrate throughout. No glandular/tubular differentiation.",
+        "cytology": "High nuclear grade. Large cells with vesicular nuclei and prominent nucleoli. Poorly defined cell borders (syncytial appearance). High mitotic rate."
+      },
+      "immunohistochemistry": {
+        "ER": "NEGATIVE (triple-negative phenotype)",
+        "PR": "NEGATIVE",
+        "HER2": "NEGATIVE",
+        "note": "Characteristically triple-negative. Know when to discuss BRCA mutations, triple negativity and the 'basal-like molecular phenotype' in basaloid lesions."
+      },
+      "genetic_associations": "May be associated with BRCA1 mutation. More frequent in younger patients.",
+      "differential_diagnosis": [
+        {"entity": "IDC with medullary features", "distinguishing_features": "Lacks one or more of the five strict criteria. Called 'atypical medullary carcinoma' or 'IDC with medullary features'."},
+        {"entity": "Lymphoma", "distinguishing_features": "Lymphoma is LCA/CD45 positive, cytokeratin negative. Medullary carcinoma is cytokeratin positive."}
+      ],
+      "prognosis": "Better prognosis than IDC-NST despite high grade appearance. Favorable outcomes attributed to immune infiltrate and circumscription."
+    },
+
+    "tubular_carcinoma": {
+      "aliases": ["Tubular carcinoma of the breast"],
+      "frequency": "1-2% of invasive breast cancers",
+      "definition": "Well-differentiated invasive breast carcinoma composed of well-formed angulated tubules lacking myoepithelial cells. May look like benign breast tissue at initial examination.",
+      "diagnostic_criteria": [
+        "Well-formed tubules with characteristic angled ducts described as 'prows'",
+        "Absence of myoepithelial cells (diagnostic, confirmed by IHC)",
+        "Greater than 70% of tumor cells must be adjacent to luminal spaces",
+        "Open luminal spaces with single layer of cells",
+        "Optional: cribriform spaces and calcifications",
+        "Apocrine snouts typically present"
+      ],
+      "histological_features": {
+        "architecture": "Well-formed angulated tubules with pointed/angular contours ('prows'). Haphazard arrangement within stroma. Single layer of cuboidal to columnar epithelium. Open lumina.",
+        "cytology": "Minimal cytologic atypia. Low nuclear grade. Low mitotic rate. Apocrine snouts at luminal surface."
+      },
+      "immunohistochemistry": {
+        "ER": "Positive (typically strongly positive)",
+        "PR": "Positive",
+        "HER2": "Negative (positivity should prompt consideration of another diagnosis)",
+        "myoepithelial_markers": "Negative (confirming absence of myoepithelial layer)"
+      },
+      "associated_findings": "Rosen triad: concurrent occurrence with LCIS and columnar cell lesions.",
+      "differential_diagnosis": [
+        {"entity": "Sclerosing adenosis", "distinguishing_features": "Benign; retains myoepithelial cells. Lobulocentric architecture."},
+        {"entity": "Microglandular adenosis", "distinguishing_features": "Round (not angulated) glands, S100 positive, ER negative."},
+        {"entity": "Radial scar/complex sclerosing lesion", "distinguishing_features": "Benign; retains myoepithelial layer. Central fibroelastic core."}
+      ],
+      "prognosis": "Excellent prognosis, significantly better than IDC-NST. Classically seen in post-menopausal women. Very low recurrence rate."
+    }
+  },
+
+  "grading_systems": {
+    "nottingham_grading_system": {
+      "aliases": ["Modified Bloom-Richardson", "Scarff-Bloom-Richardson", "Elston-Ellis modification"],
+      "purpose": "Standard histologic grading system for invasive breast carcinomas. Useful prognosticator performed routinely on all invasive breast cancers.",
+      "components": {
+        "tubule_formation": {
+          "description": "Percentage of tumor area showing definite tubule or gland formation",
+          "score_1": ">75% of tumor forming tubules",
+          "score_2": "10-75% of tumor forming tubules",
+          "score_3": "<10% of tumor forming tubules"
+        },
+        "nuclear_pleomorphism": {
+          "description": "Degree of variation in nuclear size, shape, and chromatin pattern",
+          "score_1": "Small, regular nuclei (1.5-2x RBC diameter). Uniform chromatin. Minimal variation.",
+          "score_2": "Moderate variation in nuclear size and shape. Nuclei 2-2.5x RBC diameter.",
+          "score_3": "Marked variation in nuclear size and shape (>2.5x RBC diameter). Prominent nucleoli. Vesicular chromatin."
+        },
+        "mitotic_count": {
+          "description": "Number of mitoses per 10 high-power fields (HPF). Field area must be specified (standard: 0.152 mm2 per HPF at 40x with field diameter of 0.44mm; some scopes use 1.52 mm2 total for 10 HPF).",
+          "score_1": "0-5 mitoses per 10 HPF",
+          "score_2": "6-10 mitoses per 10 HPF",
+          "score_3": ">11 mitoses per 10 HPF",
+          "note": "Modern microscopes typically have 0.2376 mm2 field diameter at 40x, requiring approximately 6-7 fields for proper sampling. Counts are field-area dependent."
+        }
+      },
+      "total_score_to_grade": {
+        "grade_1_well_differentiated": {"score_range": "3-5 points", "prognosis": "Favorable"},
+        "grade_2_moderately_differentiated": {"score_range": "6-7 points", "prognosis": "Intermediate"},
+        "grade_3_poorly_differentiated": {"score_range": "8-9 points", "prognosis": "Poor"}
+      }
+    }
+  },
+
+  "staging": {
+    "AJCC_TNM_staging": {
+      "primary_tumor_T": {
+        "Tis": "Carcinoma in situ (DCIS); Paget disease without associated tumor",
+        "T1": "Tumor <=20 mm in greatest dimension",
+        "T1mi": "Microinvasion <=1 mm",
+        "T1a": ">1 mm but <=5 mm (round any measurement 1.0-1.9 mm to 2 mm)",
+        "T1b": ">5 mm but <=10 mm",
+        "T1c": ">10 mm but <=20 mm",
+        "T2": ">20 mm but <=50 mm",
+        "T3": ">50 mm",
+        "T4": "Any size with direct extension to chest wall and/or skin",
+        "T4a": "Extension to chest wall (not including pectoralis muscle)",
+        "T4b": "Ulceration, ipsilateral satellite skin nodules, or skin edema (including peau d'orange)",
+        "T4c": "Both T4a and T4b",
+        "T4d": "Inflammatory breast cancer"
+      },
+      "regional_lymph_nodes_N": {
+        "pN0": "No regional lymph node metastasis",
+        "pN0_i_plus": "Isolated tumor cells <=0.2 mm and <200 cells",
+        "pN1mi": "Micrometastasis >0.2 mm and/or >200 cells but <=2 mm",
+        "pN1": "1-3 axillary lymph nodes positive and/or internal mammary nodes with micrometastasis",
+        "pN1a": "1-3 positive axillary nodes, at least one >2 mm",
+        "pN1b": "Internal mammary nodes with micrometastasis by sentinel node biopsy",
+        "pN1c": "Both pN1a and pN1b",
+        "pN2": "4-9 positive axillary nodes or clinically detected internal mammary nodes",
+        "pN3": ">=10 positive axillary nodes, or infraclavicular nodes, or supraclavicular nodes",
+        "N3a": "Infraclavicular nodes",
+        "N3b": "Internal mammary and axillary nodes",
+        "N3c": "Supraclavicular nodes"
+      },
+      "distant_metastasis_M": {
+        "cM0_i_plus": "No clinical/radiographic evidence of metastasis but molecularly/microscopically detected tumor cells <=0.2 mm in blood, bone marrow, or non-regional nodes",
+        "M0": "No distant metastasis",
+        "M1": "Distant metastasis detected (tumor focus >0.2 mm)"
+      },
+      "stage_groupings": {
+        "stage_0": "Tis, N0, M0 (DCIS/noninvasive)",
+        "stage_IA": "T1, N0, M0",
+        "stage_IB": "T0-T1, N1mi, M0",
+        "stage_IIA": "T0-T1 N1 M0 or T2 N0 M0",
+        "stage_IIB": "T2 N1 M0 or T3 N0 M0",
+        "stage_IIIA": "T0-T2 N2 M0 or T3 N1-N2 M0",
+        "stage_IIIB": "T4 N0-N2 M0",
+        "stage_IIIC": "Any T, N3, M0",
+        "stage_IV": "Any T, Any N, M1"
+      },
+      "survival_by_stage": {
+        "stage_0_I": "~100% 5-year survival",
+        "stage_II": "~93% 5-year survival",
+        "stage_III": "~72% 5-year survival",
+        "stage_IV": "~22% 5-year survival"
+      }
+    }
+  },
+
+  "receptor_status": {
+    "estrogen_receptor_ER": {
+      "purpose": "Predictive biomarker for endocrine therapy response. Class II IHC test used directly for treatment decisions.",
+      "staining_pattern": "Nuclear staining",
+      "scoring_systems": {
+        "allred_score": {
+          "description": "Proportion Score (PS, 0-5) + Intensity Score (IS, 0-3) = Total Score (0 or 2-8)",
+          "proportion_score": {
+            "0": "No cells staining",
+            "1": "<1% cells staining (1/100)",
+            "2": "1-10% cells staining (1/10)",
+            "3": "10-33% cells staining (1/3)",
+            "4": "33-67% cells staining (2/3)",
+            "5": ">67% cells staining"
+          },
+          "intensity_score": {
+            "0": "No staining",
+            "1": "Weak staining",
+            "2": "Intermediate staining",
+            "3": "Strong staining"
+          },
+          "interpretation": {
+            "0": "Negative",
+            "2": "Negative (borderline)",
+            "3-8": "Positive (higher score = greater benefit from endocrine therapy)"
+          }
+        },
+        "percentage_method": {
+          "positive": ">=1% of tumor nuclei staining (per ASCO/CAP 2010 guidelines)",
+          "ER_low_positive": "1-10% staining (uncertain clinical benefit; consider repeat testing)",
+          "negative": "<1% staining"
+        },
+        "H_score": {
+          "formula": "(1 x % weakly staining) + (2 x % moderately staining) + (3 x % strongly staining)",
+          "range": "0-300",
+          "positive_cutoff": "Typically >1 or institution-specific"
+        }
+      },
+      "clinical_significance": "About 75% of invasive breast cancers are ER-positive. ER-positive tumors benefit from endocrine therapy (tamoxifen, aromatase inhibitors)."
+    },
+
+    "progesterone_receptor_PR": {
+      "purpose": "Predictive and prognostic biomarker. ER+/PR+ tumors have better prognosis and response to endocrine therapy than ER+/PR- tumors.",
+      "staining_pattern": "Nuclear staining",
+      "scoring": "Same systems as ER (Allred, percentage, H-score)",
+      "positive_cutoff": ">=1% (ASCO/CAP guidelines)",
+      "clinical_significance": "ER-/PR+ tumors are rare (<1%) and should prompt retesting. PR loss in ER+ tumors may indicate more aggressive biology."
+    },
+
+    "HER2": {
+      "purpose": "Predictive biomarker for HER2-targeted therapy (trastuzumab/Herceptin, pertuzumab, T-DM1, T-DXd). Prognostic marker.",
+      "testing_methods": {
+        "IHC_scoring": {
+          "score_0": {
+            "staining": "No staining or barely perceptible incomplete membrane staining in <=10% of invasive tumor cells",
+            "result": "Negative",
+            "frequency": "~60% of cases",
+            "action": "No HER2-targeted therapy"
+          },
+          "score_1_plus": {
+            "staining": "Faint/barely perceptible incomplete membrane staining in >10% of invasive tumor cells",
+            "result": "Negative (but HER2-low)",
+            "frequency": "~10% of cases",
+            "action": "No traditional HER2-targeted therapy. May be eligible for T-DXd (HER2-low targeting)."
+          },
+          "score_2_plus": {
+            "staining": "Weak to moderate complete membrane staining in >10% of cells OR intense complete membrane staining in <=10% of cells",
+            "result": "Equivocal",
+            "frequency": "~10% of cases",
+            "action": "Requires reflex testing with ISH (FISH or SISH)"
+          },
+          "score_3_plus": {
+            "staining": "Intense complete circumferential membrane staining in >10% of invasive tumor cells",
+            "result": "Positive",
+            "frequency": "~20% of cases",
+            "action": "HER2-targeted therapy indicated"
+          }
+        },
+        "ISH_FISH_criteria": {
+          "positive": "HER2/CEP17 ratio >=2.0 OR HER2 gene copy number >=6.0 copies per cell",
+          "equivocal": "HER2/CEP17 ratio <2.0 AND HER2 copy number 4.0-6.0 copies per cell",
+          "negative": "HER2/CEP17 ratio <2.0 AND HER2 copy number <4.0 copies per cell"
+        }
+      },
+      "HER2_low": {
+        "definition": "IHC 1+ or IHC 2+/ISH-negative",
+        "clinical_relevance": "Eligible for antibody-drug conjugates like trastuzumab deruxtecan (T-DXd)"
+      },
+      "preanalytical_requirements": "Cold ischemia time <1 hour recommended (ASCO/CAP guidelines) to preserve specimen integrity.",
+      "clinical_significance": "~15-20% of breast cancers are HER2-positive. HER2 positivity associated with worse prognosis without targeted therapy but good response to HER2-targeted agents."
+    },
+
+    "Ki67": {
+      "purpose": "Proliferation marker used to distinguish Luminal A from Luminal B molecular subtypes",
+      "staining_pattern": "Nuclear staining of proliferating cells",
+      "interpretation": {
+        "low": "<14% (some guidelines use <20%): Suggests Luminal A if ER+/HER2-",
+        "high": ">=14-20%: Suggests Luminal B if ER+/HER2-"
+      },
+      "limitations": "Lacks standardized quantification methodology. Inter-observer variability is significant."
+    }
+  },
+
+  "morphological_patterns": {
+    "myoepithelial_cell_principle": {
+      "description": "The key to breast pathology is the myoepithelial cell. Normal breast glands have two cell layers: myoepithelial (outer/basal) and luminal/secretory (inner).",
+      "IHC_markers": ["CK5/6", "SMA (smooth muscle actin)", "p63", "calponin"],
+      "diagnostic_application": {
+        "present": "Benign process or in situ carcinoma (DCIS/LCIS)",
+        "absent": "Invasive carcinoma"
+      }
+    },
+    "ductal_vs_lobular_distinction": {
+      "ductal_features": "Streaming pattern, peripheral slit-like spaces, fibrovascular cores, cohesive cells, E-cadherin positive",
+      "lobular_features": "Single cells/single file, discohesive appearance, no gland formation, E-cadherin negative"
+    },
+    "calcification_patterns": {
+      "calcium_phosphate": "Purple globs with concentric rings on H&E. May be associated with malignancy (especially in DCIS).",
+      "calcium_oxalate": "Visible with polarized light. NOT associated with malignancy. Birefringent crystals.",
+      "diagnostic_significance": "Microcalcifications often prompt biopsy. Lesions may be ~100 micrometers in diameter, requiring extensive sectioning (up to 10 levels for calcification-targeted biopsies)."
+    },
+    "architectural_importance": "Architecture is more important than cytologic features in the diagnosis of malignancy in the breast. Low-grade tumors have distorted architecture but normal/near-normal cytology."
+  },
+
+  "differential_diagnosis_master": {
+    "benign_vs_malignant": [
+      {"entity": "Mastitis/Breast abscess", "features": "Inflammation resembling inflammatory breast cancer; responds to antibiotics. Neutrophilic infiltrate. No malignant cells."},
+      {"entity": "Fat necrosis", "features": "Traumatic hardening mimicking malignancy on imaging. Foamy macrophages, foreign body giant cells. No malignant epithelium."},
+      {"entity": "Fibroadenoma", "features": "Benign biphasic tumor (epithelial + stromal). Well-circumscribed. Retains myoepithelial layer. >2cm typically excised."},
+      {"entity": "Fibrocystic changes", "features": "Cysts, apocrine metaplasia, fibrosis. Non-proliferative. No increased cancer risk."},
+      {"entity": "Usual ductal hyperplasia (UDH)", "features": "Streaming pattern with slit-like spaces, heterogeneous cell population. Distinguished from DCIS by irregular architecture and mixed cell types."},
+      {"entity": "Sclerosing adenosis", "features": "Retains myoepithelial cells (IHC confirmed). Lobulocentric. Distorted but preserved two-cell-layer architecture."},
+      {"entity": "Radial scar", "features": "Central fibroelastic core with radiating ducts. Retains myoepithelial layer. Requires imaging correlation."}
+    ],
+    "papillary_lesions": {
+      "benign_papilloma": "Myoepithelial cells PRESENT. Fibrovascular cores arising from duct wall. No/low-grade atypia.",
+      "papillary_DCIS": "Fibrovascular cores arising from tufts (not directly from wall). Myoepithelial cells ABSENT on cores. Monotonous atypical cell population.",
+      "intracystic_papillary_carcinoma": "Encapsulated papillary carcinoma. No myoepithelial cells. Low-grade nuclei in most cases.",
+      "size_threshold": "Atypia extent >3mm favors DCIS over ADH in papillary lesions"
+    },
+    "spindle_cell_lesions": [
+      {"entity": "Metaplastic breast carcinoma", "features": "Cytokeratin positive. May show squamous, spindle, or matrix-producing differentiation."},
+      {"entity": "Phyllodes tumor", "features": "Biphasic (epithelial + stromal). Leaf-like architecture. Stromal overgrowth in malignant variant."},
+      {"entity": "Mammary myofibroblastoma", "features": "Benign. Desmin and CD34 positive."},
+      {"entity": "Desmoid fibromatosis", "features": "Beta-catenin nuclear positive. Infiltrative borders. No epithelial component."}
+    ]
+  },
+
+  "precursor_lesions_and_risk": {
+    "flat_epithelial_atypia_FEA": {
+      "description": "Columnar cell change with low-grade cytologic atypia. Significant risk marker for subsequent carcinoma.",
+      "management": "Excision recommended on core biopsy"
+    },
+    "atypical_ductal_hyperplasia_ADH": {
+      "description": "Shares features with low-grade DCIS but smaller extent (<2mm or <2 spaces). Moderate risk elevation.",
+      "management": "Excision recommended"
+    },
+    "lobular_carcinoma_in_situ_LCIS": {
+      "description": "Discohesive cells filling and expanding lobules. E-cadherin negative. Risk marker for bilateral breast cancer.",
+      "management": "Surveillance vs risk-reducing strategies"
+    },
+    "florid_epithelial_hyperplasia_UDH": {
+      "description": "3-4+ cell layers above basement membrane. Variable cells. No nuclear atypia. Moderate risk elevation.",
+      "management": "Follow-up"
+    }
+  },
+
+  "specimen_processing": {
+    "core_needle_biopsy": {
+      "mass_lesions": "Typically 3 levels of sectioning",
+      "calcifications": "Typically 10 levels (lesions ~100 micrometers require extensive sectioning)",
+      "BI_RADS_correlation": "Mandatory"
+    },
+    "lumpectomy_orientation": {
+      "convention": "Short suture = superior, Long suture = lateral",
+      "margin_assessment": "Inked margins evaluated for distance of tumor from resection edge"
+    },
+    "mastectomy": {
+      "note": "Usually done with sentinel lymph node biopsy as one cannot go back later to do this"
+    }
+  },
+
+  "epidemiology": {
+    "incidence": "Most common cancer diagnosed in women globally. Approximately 11.7% of new cancer cases in 2020.",
+    "lifetime_risk": "1 in 8 women and 1 in 1000 men in the US",
+    "median_age_at_diagnosis": 61,
+    "age_distribution": "95% of new cases occur in women aged 40 years or older",
+    "incidence_by_race_per_100000": {
+      "non_hispanic_white": 128.1,
+      "african_american": 124.3,
+      "hispanic_latina": 91.0,
+      "american_indian_alaska_native": 91.9,
+      "asian_american_pacific_islander": 88.3
+    },
+    "risk_factors": [
+      "Age (increases with advancing years)",
+      "Female sex",
+      "Personal history of breast cancer",
+      "Family history / genetic mutations (BRCA1/BRCA2: 5-10% of all breast cancer cases)",
+      "Early menarche, late first childbirth, nulliparity, late menopause",
+      "Exogenous hormone use (OCP, HRT)",
+      "Prior radiation exposure",
+      "Obesity and alcohol consumption",
+      "Histologic precursors (LCIS, proliferative changes with atypia)"
+    ]
+  }
+}
